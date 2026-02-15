@@ -1,19 +1,21 @@
 services:
-  # n8n Web Service
+  # n8n Web Service (Native Node.js - No Docker)
   - type: web
     name: n8n
-    env: docker
+    env: node
     plan: free
+    buildCommand: npm install
+    startCommand: npm start
     healthCheckPath: /healthz
     envVars:
+      - key: N8N_PORT
+        value: 10000
       - key: N8N_PROTOCOL
         value: https
       - key: N8N_USER_MANAGEMENT_DISABLED
         value: true
       - key: GENERIC_TIMEZONE
         value: Europe/Berlin
-      - key: WEBHOOK_URL
-        sync: false
       - key: DB_TYPE
         value: postgresdb
       - key: DB_POSTGRESDB_HOST
@@ -43,3 +45,4 @@ databases:
     plan: free
     databaseName: n8n
     user: n8n
+
